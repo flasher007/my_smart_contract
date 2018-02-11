@@ -1,5 +1,5 @@
 pragma solidity ^0.4.11;
-import "../zeppelin-solidity/contracts/token/MintableToken.sol";
+import "zeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
 
 contract AAVToken is MintableToken {
 
@@ -9,7 +9,7 @@ contract AAVToken is MintableToken {
 
     uint public totalSupply = 31000000 * (10 ** decimals);
 
-    function AAVToken(){
+    function AAVToken() public {
         balances[msg.sender] = totalSupply;
     }
 }
