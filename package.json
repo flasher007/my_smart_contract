@@ -1,0 +1,22 @@
+{
+  "name": "my_smart_contract",
+  "version": "1.0.0",
+  "description": "My First ICO Contract",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flasher007/my_smart_contract.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flasher007/my_smart_contract/issues"
+  },
+  "homepage": "https://github.com/flasher007/my_smart_contract#readme",
+  "dependencies": {
+    "zeppelin-solidity": "^1.6.0"
+  }
+}
