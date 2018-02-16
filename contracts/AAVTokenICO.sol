@@ -2,6 +2,7 @@ pragma solidity ^0.4.18;
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
+import "./searchAddress.sol";
 
 interface AAVTokenInterface {
     function transfer(address _receiver, uint256 _amount) public;
@@ -9,6 +10,10 @@ interface AAVTokenInterface {
 
 contract AAVICOContract is usingOraclize, Ownable {
     using SafeMath for uint;
+    using SearchAddress for address[];
+
+    address[] public investorWhiteList;
+
     uint public constant usdRate = 100; //in cents
     uint public buyPrice;
     uint public ETHUSDPrice;
@@ -22,7 +27,6 @@ contract AAVICOContract is usingOraclize, Ownable {
 
     function AAVICOContract(AAVTokenInterface _token) public {
         token = _token;
-
         oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
         update();
     }
@@ -37,6 +41,7 @@ contract AAVICOContract is usingOraclize, Ownable {
     }
 
     function _buy(address _sender, uint256 _amount) internal returns (uint){
+        require(investorWhiteList.searchFor(_sender) != false);
         uint tokens = _amount.mul(ETHUSDPrice).div(usdRate);
         token.transfer(_sender, tokens);
         return tokens;
@@ -61,6 +66,11 @@ contract AAVICOContract is usingOraclize, Ownable {
     function setUpdateInterval(uint newInterval) external onlyOwner {
         require(newInterval > 0);
         updateInterval = newInterval;
+    }
+
+    function setNewWhiteList(address newWhiteList) external onlyOwner {
+        require(newWhiteList != 0x0);
+        investorWhiteList.push(newWhiteList);
     }
 
 }
